@@ -1,0 +1,121 @@
+---
+title: " "
+editor: visual
+jupyter: python3
+lang: es
+fontsize: 12pt
+latex-engine: xelatex
+format:
+  pdf:
+    fig-pos: 'H'
+    tbl-pos: 'H'
+    include-before-body: titlepage.tex
+    toc: true
+    lof: true
+    lot: true
+text: |
+  \usepackage{float}
+  \usepackage{amsmath}
+  \usepackage{array}
+  \usepackage{multirow}
+geometry:
+  - top=30mm
+  - left=20mm
+  - heightrounded
+colorlinks: false
+number-sections: false
+fig_caption: true
+flexbiboptions: spanish
+link-citations: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Ejercicio 2.1
+
+![Diagrama UML de la clase Persona](ejercicio1.png){fig-align="center" fig-width="5in"}
+
+
+
+```{python}
+class Persona:
+    def __init__(self, nombre, 
+    apellidos, numero_documento, ano_nacimiento):
+        self.nombre = nombre
+        self.apellidos = apellidos
+        self.numero_documento = numero_documento
+        self.ano_nacimiento = ano_nacimiento
+
+    def imprimir(self):
+        print(f"Nombre = {self.nombre}")
+        print(f"Apellidos = {self.apellidos}")
+        print(f"Número de documento de identidad = {self.numero_documento}")
+        print(f"Año de nacimiento = {self.ano_nacimiento}")
+        print()
+
+# Método main simulado
+if __name__ == "__main__":
+    p1 = Persona("Pedro", "Pérez", "1053121010", 1998)
+    p2 = Persona("Luis", "León", "1053223344", 2001)
+
+    p1.imprimir()
+    p2.imprimir()
+
+```
+
+## ejercicio 2.2
+
+![Planeta Tierra](ejercicio.png){fig-align="center" fig-width="5in"}
+
+```{python}
+from enum import Enum
+
+class TipoPlaneta(Enum):
+    GASEOSO = "GASEOSO"
+    TERRESTRE = "TERRESTRE"
+    ENANO = "ENANO"
+
+class Planeta:
+    def __init__(self, nombre=None, cantidad_satelites=0, masa=0, volumen=0, 
+    diametro=0, distancia_sol=0, tipo=TipoPlaneta.TERRESTRE, es_observable=False):
+        self.nombre = nombre
+        self.cantidad_satelites = cantidad_satelites
+        self.masa = masa
+        self.volumen = volumen
+        self.diametro = diametro
+        self.distancia_sol = distancia_sol
+        self.tipo = tipo
+        self.es_observable = es_observable
+
+    def imprimir(self):
+        print(f"Nombre del planeta = {self.nombre}")
+        print(f"Cantidad de satélites = {self.cantidad_satelites}")
+        print(f"Masa del planeta = {self.masa}")
+        print(f"Volumen del planeta = {self.volumen}")
+        print(f"Diámetro del planeta = {self.diametro}")
+        print(f"Distancia al Sol = {self.distancia_sol}")
+        print(f"Tipo de planeta = {self.tipo.value}")
+        print(f"Es observable = {self.es_observable}")
+
+    def calcular_densidad(self):
+        if self.volumen == 0:
+            return None
+        return self.masa / self.volumen
+
+    def es_planeta_exterior(self):
+        UA = 149_597_870  # km
+        limite_exterior = 3.4 * UA
+        return self.distancia_sol > limite_exterior
+
+if __name__ == "__main__":
+    tierra = Planeta("Tierra", 1, 5.9736e24, 1.08321e12, 12742, 150_000_000, TipoPlaneta.TERRESTRE, True)
+    for planeta in [tierra]:
+        planeta.imprimir()
+        densidad = planeta.calcular_densidad()
+        print(f"Densidad del planeta = {densidad:.2f} kg/km³" if densidad else "Densidad no disponible")
+        print(f"Es planeta exterior = {planeta.es_planeta_exterior()}")
+        print()
+
+```
