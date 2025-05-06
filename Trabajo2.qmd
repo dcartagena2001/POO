@@ -35,6 +35,13 @@ execute:
 
 ## Ejercicio 2.1
 
+
+Se requiere un programa que modele el concepto de una persona. Una persona posee nombre, apellido, número de documento de identidad y año de nacimiento. La clase debe tener un constructor que inicialice los valores de sus respectivos atributos.
+La clase debe incluir los siguientes métodos:
+
+    Definir un método que imprima en pantalla los valores de los atributos del objeto.
+    En un método main se deben crear dos personas y mostrar los valores de sus atributos en pantalla.
+
 ![Diagrama UML de la clase Persona](/Punto%201/ejercicio1.png){fig-align="center" fig-width="5in"}
 
 
@@ -66,6 +73,8 @@ if __name__ == "__main__":
 ```
 
 ## Ejercicio 2.2
+
+
 
 ![Planeta Tierra](/Punto%202/ejercicio.png){fig-align="center" fig-width="5in"}
 
@@ -118,4 +127,262 @@ if __name__ == "__main__":
         print(f"Es planeta exterior = {planeta.es_planeta_exterior()}")
         print()
 
+```
+
+
+
+## Ejercicio 2.3
+
+
+Encontraremos en la parte inferior el desarrollo del codigo fuente para la resolución del ejercicio 2.3, se hizo uso del paquete Enum y se definió la clase Automóvil con sus distintos atributos y métodos, posterior a ello se hace uso del método main.
+
+
+![](/Punto%203/Diagrama_ejercicio2-3.png){fig-align="center" fig-width="5in"}
+
+
+
+```{python}
+from enum import Enum
+
+class TipoCombustible(Enum):
+    GASOLINA = "Gasolina"
+    BIOETANOL = "Bioetanol"
+    DIESEL = "Diésel"
+    BIODIESEL = "Biodiésel"
+    GAS_NATURAL = "Gas Natural"
+
+class TipoAutomovil(Enum):
+    CIUDAD = "Ciudad"
+    SUBCOMPACTO = "Subcompacto"
+    COMPACTO = "Compacto"
+    FAMILIAR = "Familiar"
+    EJECUTIVO = "Ejecutivo"
+    SUV = "SUV"
+
+class TipoColor(Enum):
+    BLANCO = "Blanco"
+    NEGRO = "Negro"
+    ROJO = "Rojo"
+    NARANJA = "Naranja"
+    AMARILLO = "Amarillo"
+    VERDE = "Verde"
+    AZUL = "Azul"
+    VIOLETA = "Violeta"
+
+class Automovil:
+    def __init__(self, marca, modelo, motor, tipo_combustible, tipo_auto,
+                 num_puertas, asientos, velocidad_max, color):
+        self.marca = marca
+        self.modelo = modelo
+        self.motor = motor
+        self.tipo_combustible = tipo_combustible
+        self.tipo_auto = tipo_auto
+        self.num_puertas = num_puertas
+        self.asientos = asientos
+        self.velocidad_max = velocidad_max
+        self.color = color
+        self.velocidad_actual = 0
+
+    def acelerar(self, incremento):
+        if self.velocidad_actual + incremento <= self.velocidad_max:
+            self.velocidad_actual += incremento
+        else:
+            print("No se puede superar la velocidad máxima.")
+
+    def desacelerar(self, decremento):
+        if self.velocidad_actual - decremento >= 0:
+            self.velocidad_actual -= decremento
+        else:
+            print("No se puede desacelerar a velocidad negativa.")
+
+    def frenar(self):
+        self.velocidad_actual = 0
+
+    def calcular_tiempo_llegada(self, distancia):
+        if self.velocidad_actual > 0:
+            return distancia / self.velocidad_actual
+        else:
+            print("La velocidad actual es cero, no se puede calcular el tiempo.")
+            return None
+
+    def imprimir(self):
+        print("Marca:", self.marca)
+        print("Modelo:", self.modelo)
+        print("Motor:", self.motor)
+        print("Tipo de combustible:", self.tipo_combustible.value)
+        print("Tipo de automóvil:", self.tipo_auto.value)
+        print("Número de puertas:", self.num_puertas)
+        print("Cantidad de asientos:", self.asientos)
+        print("Velocidad máxima:", self.velocidad_max)
+        print("Color:", self.color.value)
+
+# --- MAIN ---
+if __name__ == "__main__":
+    auto1 = Automovil("Ford", 2018, 3, TipoCombustible.DIESEL, TipoAutomovil.EJECUTIVO,
+                      5, 6, 250, TipoColor.NEGRO)
+
+
+    auto1.imprimir()
+    auto1.velocidad_actual = 100
+    print("Velocidad actual:", auto1.velocidad_actual)
+
+    auto1.acelerar(20)
+    print("Velocidad actual:", auto1.velocidad_actual)
+
+    auto1.desacelerar(50)
+    print("Velocidad actual:", auto1.velocidad_actual)
+
+    auto1.frenar()
+    print("Velocidad actual:", auto1.velocidad_actual)
+
+    auto1.desacelerar(20)
+```
+
+## Ejercio 4
+
+![](/Punto%204/diagrama_ejercicio_4.png){fig-align="center" fig-width="5in"}
+
+
+```{python}
+import math
+
+class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+
+    def calcular_area(self):
+        return math.pi * math.pow(self.radio, 2)
+
+    def calcular_perimetro(self):
+        return 2 * math.pi * self.radio
+
+
+class Cuadrado:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        return self.lado * self.lado
+
+    def calcular_perimetro(self):
+        return 4 * self.lado
+
+
+class Rectangulo:
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+
+    def calcular_area(self):
+        return self.base * self.altura
+
+    def calcular_perimetro(self):
+        return 2 * (self.base + self.altura)
+
+
+class TrianguloRectangulo:
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+
+    def calcular_area(self):
+        return (self.base * self.altura) / 2
+
+    def calcular_hipotenusa(self):
+        return math.sqrt(self.base ** 2 + self.altura ** 2)
+
+    def calcular_perimetro(self):
+        return self.base + self.altura + self.calcular_hipotenusa()
+
+    def determinar_tipo_triangulo(self):
+        hipotenusa = self.calcular_hipotenusa()
+        if self.base == self.altura == hipotenusa:
+            print("Es un triángulo equilátero")
+        elif self.base != self.altura and self.base != hipotenusa and self.altura != hipotenusa:
+            print("Es un triángulo escaleno")
+        else:
+            print("Es un triángulo isósceles")
+
+
+# Clase de prueba
+if __name__ == "__main__":
+    figura1 = Circulo(2)
+    figura2 = Rectangulo(1, 2)
+    figura3 = Cuadrado(3)
+    figura4 = TrianguloRectangulo(3, 5)
+
+    print("El área del círculo es =", figura1.calcular_area())
+    print("El perímetro del círculo es =", figura1.calcular_perimetro())
+    print()
+
+    print("El área del rectángulo es =", figura2.calcular_area())
+    print("El perímetro del rectángulo es =", figura2.calcular_perimetro())
+    print()
+
+    print("El área del cuadrado es =", figura3.calcular_area())
+    print("El perímetro del cuadrado es =", figura3.calcular_perimetro())
+    print()
+
+    print("El área del triángulo es =", figura4.calcular_area())
+    print("El perímetro del triángulo es =", figura4.calcular_perimetro())
+    print("La hipotenusa del triángulo es =", figura4.calcular_hipotenusa())
+    figura4.determinar_tipo_triangulo()
+
+```
+
+## Ejercicio 5
+
+![](/Punto%205/diagrama_ejercico_5.png){fig-align="center" fig-width="5in"}
+
+```{python}
+
+
+from enum import Enum
+
+class TipoCuenta(Enum):
+    AHORROS = "AHORROS"
+    CORRIENTE = "CORRIENTE"
+
+class CuentaBancaria:
+    def __init__(self, nombres_titular, apellidos_titular, numero_cuenta, tipo_cuenta):
+        self.nombres_titular = nombres_titular
+        self.apellidos_titular = apellidos_titular
+        self.numero_cuenta = numero_cuenta
+        self.tipo_cuenta = tipo_cuenta
+        self.saldo = 0
+
+    def imprimir(self):
+        print(f"Nombres del titular = {self.nombres_titular}")
+        print(f"Apellidos del titular = {self.apellidos_titular}")
+        print(f"Número de cuenta = {self.numero_cuenta}")
+        print(f"Tipo de cuenta = {self.tipo_cuenta.value}")
+        print(f"Saldo = {self.saldo}")
+
+    def consultar_saldo(self):
+        print(f"El saldo actual es = {self.saldo}")
+
+    def consignar(self, valor):
+        if valor > 0:
+            self.saldo += valor
+            print(f"Se ha consignado ${valor} en la cuenta. El nuevo saldo es ${self.saldo}")
+            return True
+        else:
+            print("El valor a consignar debe ser mayor que cero.")
+            return False
+
+    def retirar(self, valor):
+        if valor > 0 and valor <= self.saldo:
+            self.saldo -= valor
+            print(f"Se ha retirado ${valor} en la cuenta. El nuevo saldo es ${self.saldo}")
+            return True
+        else:
+            print("El valor a retirar debe ser menor que el saldo actual.")
+            return False
+
+if __name__ == "__main__":
+    cuenta = CuentaBancaria("Pedro", "Perez", 123456789, TipoCuenta.AHORROS)
+    cuenta.imprimir()
+    cuenta.consignar(200000)
+    cuenta.consignar(300000)
+    cuenta.retirar(400000)
 ```
